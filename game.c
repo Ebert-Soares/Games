@@ -3,21 +3,22 @@
 
 int GlobalRunning;
 
-LRESULT CALLBACK Win32MainWindowCallback(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
-{
-    LRESULT Result = 0;
-    if (Message == WM_QUIT  ||
-        Message == WM_CLOSE ||
-        Message == WM_DESTROY)
-    {
-        GlobalRunning = 0;
-    }
-    else {
-        Result = DefWindowProcA(Window, Message, wParam, lParam);
-    }
+LRESULT CALLBACK WindowProc(hwnd, msg, wParam, lParam){
 
-    return Result;
+MSG Message = {0};
+for(;;){
+
+ while(PeekMessage(&Message, 0, 0, 0, PM_REMOVE)){
+   TranslateMessage(&Message);
+   DispatchMessage(&Message);
+ }
+if(Message.message == WM_QUIT){
+  break;}
 }
+return Message.wParam;
+
+}
+
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd){
@@ -27,13 +28,13 @@ WNDCLASSEX wc;
 
 wc.cbSize = sizeof(wc);
 wc.style = CS_HREDRAW | CS_VREDRAW;
-wc.lpfnWndProc = Win32MainWindowCallback;
+wc.lpfnWndProc = WindowProc;
 wc.cbClsExtra = 0;
 wc.cbWndExtra = 0;
 wc.hInstance = hInstance;
 wc.hIcon = LoadIcon(0, IDI_APPLICATION);
 wc.hCursor = LoadCursor(0, IDC_ARROW);
-wc.hbrBackground =  (HBRUSH)(NULL_BRUSH);
+wc.hbrBackground =  (HBRUSH)(WHITE_BRUSH);
 wc.lpszMenuName = 0;
 wc.lpszClassName = "window";
 wc.hIconSm = LoadIcon(0, IDI_APPLICATION);
