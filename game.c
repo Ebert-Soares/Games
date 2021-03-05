@@ -21,7 +21,6 @@ LRESULT CALLBACK Win32MainWindowCallback(HWND Window, UINT Message, WPARAM wPara
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd){
-  MessageBox(NULL, "Hello World", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 
 
 WNDCLASSEX wc;
@@ -34,15 +33,16 @@ wc.cbWndExtra = 0;
 wc.hInstance = hInstance;
 wc.hIcon = LoadIcon(0, IDI_APPLICATION);
 wc.hCursor = LoadCursor(0, IDC_ARROW);
+wc.hbrBackground =  (HBRUSH)(NULL_BRUSH);
 wc.lpszMenuName = 0;
 wc.lpszClassName = "window";
 wc.hIconSm = LoadIcon(0, IDI_APPLICATION);
-RegisterClassExA(&wc);
-if(!RegisterClassExA(&wc)){
-  MessageBoxA(NULL, "Error! Could not register class!", "Ebert", MB_ICONEXCLAMATION | MB_OK);
+
+if(!RegisterClassEx(&wc)){
+  MessageBoxA(NULL, "Error! Could not register class!aaaaaaaaaaaaaaaaaaa", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 
 }
-else if(RegisterClassExA(&wc)){
+else if(RegisterClassEx(&wc)){
   MessageBoxA(NULL, "Error! Could not register class!", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 }
 
