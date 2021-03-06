@@ -1,43 +1,43 @@
 #include <stdio.h>
 #include <windows.h>
 
-int GlobalRunning;
 
-LRESULT CALLBACK WindowProc(hwnd, msg, wParam, lParam){
+LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+    switch(msg)
+    {
+        case WM_CLOSE:
+            DestroyWindow(hwnd);
+        break;
+        case WM_DESTROY:
+            PostQuitMessage(0);
+        break;
+        default:
 
-MSG Message = {0};
-for(;;){
-
- while(PeekMessage(&Message, 0, 0, 0, PM_REMOVE)){
-   TranslateMessage(&Message);
-   DispatchMessage(&Message);
- }
-if(Message.message == WM_QUIT){
-  break;}
-}
-return Message.wParam;
-
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
+    return 0;
 }
 
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd){
 
-
+HWND hwnd;
+MSG Msg;
 WNDCLASSEX wc;
 
-wc.cbSize = sizeof(wc);
+wc.cbSize = sizeof(WNDCLASSEX);
 wc.style = CS_HREDRAW | CS_VREDRAW;
-wc.lpfnWndProc = WindowProc;
+wc.lpfnWndProc = WndProc;
 wc.cbClsExtra = 0;
 wc.cbWndExtra = 0;
 wc.hInstance = hInstance;
-wc.hIcon = LoadIcon(0, IDI_APPLICATION);
-wc.hCursor = LoadCursor(0, IDC_ARROW);
-wc.hbrBackground =  (HBRUSH)(WHITE_BRUSH);
-wc.lpszMenuName = 0;
+wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+wc.hbrBackground =  (HBRUSH)(COLOR_WINDOW+1);
+wc.lpszMenuName = NULL;
 wc.lpszClassName = "window";
-wc.hIconSm = LoadIcon(0, IDI_APPLICATION);
+wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
 if(!RegisterClassEx(&wc)){
   MessageBoxA(NULL, "Error! Could not register class!aaaaaaaaaaaaaaaaaaa", "Ebert", MB_ICONEXCLAMATION | MB_OK);
@@ -47,12 +47,23 @@ else if(RegisterClassEx(&wc)){
   MessageBoxA(NULL, "Error! Could not register class!", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 }
 
-CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "game", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL);
-if(!CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "game", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL)){
+
+CreateWindowEx(WS_EX_CLIENTEDGE, wc.lpszClassName, "aaaaaaaaaaa", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL);
+if(!CreateWindowEx(WS_EX_CLIENTEDGE, wc.lpszClassName, "aaaaaaaaaaa", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL)){
 MessageBox(NULL, "Error! Could not create window!", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 }
 
-ShowWindow(CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "game", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL), SW_SHOW);
-UpdateWindow(CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "game", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL));
+
+
+ShowWindow(CreateWindowEx(WS_EX_CLIENTEDGE, wc.lpszClassName, "game", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL), SW_SHOW);
+UpdateWindow(CreateWindowEx(WS_EX_CLIENTEDGE, wc.lpszClassName, "game", WS_EX_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL));
+
+while(GetMessage(&Msg, NULL, 0, 0) > 0)
+   {
+       TranslateMessage(&Msg);
+       DispatchMessage(&Msg);
+   }
+   return Msg.wParam;
+
 
 }
