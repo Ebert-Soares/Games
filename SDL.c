@@ -20,13 +20,7 @@ int init(const char* title, int xpos, int ypos, int height, int width, int flags
     if(window != 0)
   {
        render = SDL_CreateRenderer(window, -1, 0);
-       SDL_Surface* pTempSurface = SDL_LoadBMP("assets/rider.bmp");
-       m_pTexture = SDL_CreateTextureFromSurface(render, pTempSurface);
-       SDL_QueryTexture(m_pTexture, NULL, NULL, &m_sourceRectangle.w, &m_sourceRectangle.h);
-       m_destinationRectangle.x = m_sourceRectangle.x = 0;
-       m_destinationRectangle.y = m_sourceRectangle.y = 0;
-       m_destinationRectangle.w = m_sourceRectangle.w;
-       m_destinationRectangle.h = m_sourceRectangle.h;
+
 
   }
      else
@@ -40,9 +34,16 @@ void renderize()
 {
 
  SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+ SDL_Surface* pTempSurface = SDL_LoadBMP("assets/rider.bmp");
+ m_pTexture = SDL_CreateTextureFromSurface(render, pTempSurface);
+ SDL_QueryTexture(m_pTexture, NULL, NULL, &m_sourceRectangle.w, &m_sourceRectangle.h);
+ m_destinationRectangle.x = m_sourceRectangle.x = 0;
+ m_destinationRectangle.y = m_sourceRectangle.y = 0;
+ m_destinationRectangle.w = m_sourceRectangle.w;
+ m_destinationRectangle.h = m_sourceRectangle.h;
+ SDL_RenderClear(render);
  SDL_RenderCopy(render, m_pTexture, &m_sourceRectangle, &m_destinationRectangle);
-  SDL_RenderClear(render);
-  SDL_RenderPresent(render);
+ SDL_RenderPresent(render);
 }
 
 void clean(){
