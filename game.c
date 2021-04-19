@@ -2,7 +2,7 @@
 #include <windows.h>
 
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+LRESULT CALLBACK WndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg)
     {
         case WM_CLOSE:
@@ -55,7 +55,9 @@ if(!CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "aaaaaaaaaaa", WS_E
 MessageBox(NULL, "Error! Could not create window!", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 }
 
+}
 
+MessageBoxA(NULL, "Error! Could not register class!", "Ebert", MB_ICONEXCLAMATION | MB_OK);
 
 ShowWindow(CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "game", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL), SW_SHOW);
 UpdateWindow(CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, "game", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL));
